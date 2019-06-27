@@ -9,23 +9,35 @@ version = "1.1.0-SNAPSHOT"
 description = "OpenEJB :: Web Examples :: Moviefun"
 
 dependencies {
-    compile project(":components:movies")
-    compile project(":components:albums")
-
+    compile project(":components:cf-support")
+    compile project(":components:movie-fun-api")
+    
+    
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-tomcat"
-    compile "org.springframework.boot:spring-boot-starter-data-jpa"
 
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.7.0"
     compile "taglibs:standard:1.1.2"
     compile "javax.servlet:jstl:1.2"
 
-    compile "mysql:mysql-connector-java:5.1.40"
+    //compile "mysql:mysql-connector-java:5.1.40"
 
     compile "org.apache.tomcat.embed:tomcat-embed-jasper:8.5.6"
-    compile "org.apache.geronimo.specs:geronimo-osgi-locator:1.1"
-    compile "org.apache.geronimo.components:geronimo-jaspi:2.0.0"
-    compile "org.apache.tomee:javaee-api:8.0"
+    //compile "org.apache.geronimo.specs:geronimo-osgi-locator:1.1"
+    //compile "org.apache.geronimo.components:geronimo-jaspi:2.0.0"
+    //compile "org.apache.tomee:javaee-api:8.0"
 
     testCompile "junit:junit:$junitVersion"
 }
+
+bootRun.environment([
+        "MINIO_ACCESS_KEY": "FRL1V1HKRM3I4K4246T4",
+        "MINIO_SECRET_ACCESS_KEY": "OYCCewMOuNP7voc7ZohY+q667SLqTOG9YVlLYrnc",
+        "S3_ENDPOINTURL": "http://127.0.0.1:9000",
+        "MINIO_BUCKET" : "moviefun",
+        "VCAP_SERVICES": '{"user-provided": [{"credentials": {"access_key_id": "${MINIO_ACCESS_KEY:?missing}", "bucket": "${MINIO_BUCKET}", "secret_access_key": "${MINIO_SECRET_ACCESS_KEY:?missing}", "endpoint": "http://127.0.0.1:9000"}, "name": "photo-storage"}]}',
+        "APPLICATION_OAUTH_ENABLED": "false",        "EUREKA_CLIENT_ENABLED": "false",
+        "RIBBON_EUREKA_ENABLED": "false",        "ALBUM_SERVICE_RIBBON_LISTOFSERVERS": "http://localhost:8081",
+        "MOVIE_SERVICE_RIBBON_LISTOFSERVERS": "http://localhost:8082",
+        "MOVIES_PAGESIZE": "6"
+])

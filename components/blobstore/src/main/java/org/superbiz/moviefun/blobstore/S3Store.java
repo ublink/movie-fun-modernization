@@ -6,12 +6,15 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.util.IOUtils;
 import org.apache.tika.Tika;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Optional;
 
 public class S3Store implements BlobStore {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final AmazonS3 s3;
     private final String bucketName;
@@ -25,7 +28,12 @@ public class S3Store implements BlobStore {
 
     @Override
     public void put(Blob blob) throws IOException {
-        s3.putObject(bucketName, blob.name, blob.inputStream, new ObjectMetadata());
+        try {
+            s3.putObject(bucketName, blob.name, blob.inputStream, new ObjectMetadata());
+        } catch (Throwable e) {
+            logger.error("Error putting object to S3: {}");
+            throw e;
+        }
     }
 
     @Override

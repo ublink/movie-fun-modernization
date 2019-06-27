@@ -1,6 +1,7 @@
 package org.superbiz.moviefun;
 
 import org.junit.Test;
+import org.superbiz.moviefun.support.ServiceCredentials;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
@@ -19,7 +20,7 @@ public class ServiceCredentialsTest {
                                   "     \"name\": \"dbname\",\n" +
                                   "     \"password\": \"password\",\n" +
                                   "     \"port\": \"3306\",\n" +
-                                  "     \"uri\": \"mysql://someuri\",\n" +
+                                  "     \"uri\": \"mys.ql://someuri\",\n" +
                                   "     \"username\": \"username\"\n" +
                                   "    },\n" +
                                   "    \"instance_name\": \"movies-mysql\",\n" +
